@@ -84,4 +84,4 @@ def displayclub(request,pk):
 	for r,t in a.items():
 		if t["pk"]==pk:
 			ans=r
-	return render(request,"clubs/displayclub.html",{"clubname":ans,"details":a[ans]})
+	return render(request,"clubs/displayclub.html",{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
