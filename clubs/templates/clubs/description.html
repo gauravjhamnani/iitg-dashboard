@@ -161,151 +161,25 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <h1 align="Center"> {{clubname}} </h1> <br>
               <div class="card">
-                <div class="card-header card-header-tabs card-header-primary">
-                  <div class="nav-tabs-navigation">
-                    <div class="nav-tabs-wrapper">
-                      <!-- <span class="nav-tabs-title">Tasks:</span> -->
-                      <ul class="nav nav-tabs" data-tabs="tabs">
-                        <li class="nav-item">
-                          <a class="nav-link active" href="#about" data-toggle="tab">
-                            <i class="material-icons">bug_report</i> About
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#announcements" data-toggle="tab">
-                            <i class="material-icons">code</i> Announcements
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#events" data-toggle="tab">
-                            <i class="material-icons">cloud</i> Events
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#resources" data-toggle="tab">
-                            <i class="material-icons">cloud</i> Resources
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#gallery" data-toggle="tab">
-                            <i class="material-icons">cloud</i> Gallery
-                            <div class="ripple-container"></div>
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title">Edit Description</h4>
+                  <p class="card-category">Fill in the fields</p>
                 </div>
                 <div class="card-body">
-                  <div class="tab-content">
-                    <div class="tab-pane active" id="about">
-                      <table class="table">
-                        <tbody>
-                          <tr>
-                            <td>{{ details.Desc }}</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Description" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
+                  <form method = "post">
+                    {% csrf_token %}
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Description</label>
+                          <input type="text" class="form-control" name = "desc" id = "desc">
+                        </div>
+                      </div>
                     </div>
-                    <div class="tab-pane" id="announcements">
-                      <table class="table">
-                        <tbody>
-                          {% if details.Announcements %}
-                          {% for r, a in details.Announcements.items %}
-                          <tr>
-                            <td>
-                              {{ a.time }} &nbsp; {{ a.date }}
-                            </td>
-                            <td> {{ a.heading }} 
-                            <p> {{ a.announcement }} </p>
-                            </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          {% endfor %}
-                          {% endif %}
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="tab-pane" id="events">
-                      <table class="table">
-                        <tbody>
-                          {% if details.Events %}
-                          {% for r, a in details.Events.items %}
-                          <tr>
-                            <td>
-                              {{ a.time }} &nbsp; {{ a.date }}
-                            </td>
-                            <td>
-                              <table class="table">
-                                <tbody> 
-                                  <tr> <h3> {{ a.heading }} </h3>
-                                  <tr> <p> {{a.description}} </p> </tr>
-                                  <tr> <p> {{a.venue}} </p> </tr>
-                                  <tr> <p> {{a.mob}} </p> </tr>
-                                </tbody>
-                              </table>
-                            </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          {% endfor %}
-                          {% endif %}
-                          
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="tab-pane" id="resources">
-                      <table class="table">
-                        <tbody>
-                          {% if details.Res %}
-                          {% for r, a in details.Res.items %}
-                          <tr>
-                            <td>
-                              {{ a.heading }}
-                            </td>
-                            <td>
-                              <a href={{ a.src }}> {{ a.src }} </a>
-                            </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
-                          {% endfor %}
-                          {% endif %}
-                          
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
+                    <button type="submit" class="btn btn-primary pull-right">Edit Description</button>
+                    <div class="clearfix"></div>
+                  </form>
                 </div>
               </div>
             </div>

@@ -1342,7 +1342,7 @@ pre {
   background-color: transparent; }
   .table th,
   .table td {
-    padding: 0.75rem;
+    padding: 10.75rem;
     vertical-align: top;
     border-top: 1px solid rgba(0, 0, 0, 0.06); }
   .table thead th {
@@ -12486,7 +12486,7 @@ Copyright (c) 2015 Daniel Eden
   .navbar .navbar-nav {
     align-items: center; }
     .navbar .navbar-nav .button-container {
-      margin-left: 0.1875px; }
+      margin-left: 1000.1875px; }
   .sidebar .navbar-form {
     display: none !important; } }
 
