@@ -26,6 +26,39 @@ config = {
 firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db=firebase.database()
+storage = firebase.storage()
+
+import requests
+from bs4 import BeautifulSoup
+def convert(a):
+
+	s = a.encode('ascii', 'ignore')
+	return s
+def createTT():
+	soup = BeautifulSoup(open("/home/shubham/Desktop/xx.html"), 'html.parser')
+	item = soup.find_all('td', attrs={'class': 'tabval'})
+
+	data={}
+
+	for i in range(0,len(item),8):
+		#print item[i]
+		dept = convert(item[i].text)
+		prog = convert(item[i+1].text)[0]
+		sem = convert(item[i+2].text)
+		data["course"] = convert(item[i+3].text)
+		data["room"] = convert(item[i+4].text)
+		#print item[i+7].text
+		if convert(item[i+7].text) == "N/A":
+			data["slot"] = convert(item[i+6].text)
+		else:
+			#print "Hi "
+			data["slot"] = convert(item[i+7].text)
+		#sprint(data)
+		db.child("TimeTable").child(dept).child(prog).child(sem).push(data)
+		
+# createTT()
+
+
 def index(request):
 	a=db.child('clubs').get()
 	a=a.val()
@@ -100,7 +133,7 @@ def desc(request,pk):
 				ans=r
 		db.child("clubs").child(ans).child(Desc).update(desc)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})	
-	return render(reuest,'clubs/description.html')
+	return render(request,'clubs/description.html')
 
 def addannouncement(request,pk):
 	if request.method == "POST":
@@ -120,7 +153,7 @@ def addannouncement(request,pk):
 			r=ann.append({"heading":heading,"announcement":announcement,"date":date,"time":time})
 		db.child("clubs").child(ans).child("Announcements").update(r)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addannouncement.html')
+	return render(request,'clubs/addannouncement.html',)
 
 def addevent(request,pk):
 	if request.method == "POST":
@@ -164,3 +197,21 @@ def addresource(request,pk):
 		db.child("clubs").child(ans).child("Res").update(r)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
 	return render(request,'clubs/addresource.html')
+
+
+def pic(request,pk):
+	if request.method == "POST":
+		pic = request.POST.get('pic')
+		t="images/"+pic
+		storage.child(t).put(pic)
+		all_clubs = db.child("clubs").get()
+		a=all_clubs.val()
+		for r,t in a.items():
+			if t["pk"]==pk:
+				ans=rall_clubs = db.child("clubs").get()
+		a=all_clubs.val()
+		for r,t in a.items():
+			if t["pk"]==pk:
+				ans=r
+		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
+	return render(request,'clubs/getpic.html')
