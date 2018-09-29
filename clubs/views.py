@@ -64,9 +64,6 @@ def addclub(request):
 			"email" : email,
 			"Photo": "None",
 			"Desc" : "None",
-			"Res" : "None",
-			"Announcements" : "None",
-			"Events" : "None",
 			"Pictures" : "None",	
 			"pk" : l
 		}
@@ -98,29 +95,27 @@ def desc(request,pk):
 		for r,t in a.items():
 			if t["pk"]==pk:
 				ans=r
-		db.child("clubs").child(ans).child(Desc).update(desc)
+		db.child("clubs").child(ans).child("Desc").set(desc)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})	
-	return render(reuest,'clubs/description.html')
+	return render(request,'clubs/description.html')
 
 def addannouncement(request,pk):
 	if request.method == "POST":
 		heading = request.POST.get('heading')
 		announcement = request.POST.get('announcement')
-		date = datetime.date.today()
-		now = datetime.datetime.now()
+		temp = (datetime.datetime.now() + datetime.timedelta(hours=5, minutes=30)).strftime('%d-%m-%Y %H:%M:%S')
+		temp = temp.split(' ');
+		date = temp[0]
+		now = temp[1]
 		all_clubs = db.child("clubs").get()
 		a=all_clubs.val()
 		for r,t in a.items():
 			if t["pk"]==pk:
 				ans=r
-		ann=db.child("clubs").child(ans).child("Announcements").get().val()
-		if ann=="None":
-			r=[{"heading":heading,"announcement":announcement,"date":date,"time":time}]
-		else:
-			r=ann.append({"heading":heading,"announcement":announcement,"date":date,"time":time})
-		db.child("clubs").child(ans).child("Announcements").update(r)
+		ro={"heading":heading,"announcement":announcement,"date":str(date),"time":str(now)}
+		db.child("clubs").child(ans).child("Announcements").push(ro)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addannouncement.html')
+	return render(request,'clubs/addannouncement.html', {"pk": pk})
 
 def addevent(request,pk):
 	if request.method == "POST":
@@ -135,12 +130,8 @@ def addevent(request,pk):
 		for r,t in a.items():
 			if t["pk"]==pk:
 				ans=r
-		ann=db.child("clubs").child(ans).child("Events").get().val()
-		if ann=="None":
-			r=[{"heading":heading,"description":description,"date":date,"time":time,"venue":venue,"mob":mob}]
-		else:
-			r=ann.append({"heading":heading,"description":description,"date":date,"time":time,"venue":venue,"mob":mob})
-		db.child("clubs").child(ans).child("Events").update(r)
+		ro = {"heading":heading,"description":description,"date":date,"time":time,"venue":venue,"mob":mob}
+		db.child("clubs").child(ans).child("Events").push(ro)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
 	return render(request,'clubs/addevent.html')
 
@@ -156,11 +147,7 @@ def addresource(request,pk):
 		for r,t in a.items():
 			if t["pk"]==pk:
 				ans=r
-		ann=db.child("clubs").child(ans).child("Res").get().val()
-		if ann=="None":
-			r=[{"heading":heading,"src":src}]
-		else:
-			r=ann.append({"heading":heading,"src":src})
-		db.child("clubs").child(ans).child("Res").update(r)
+		ro = {"heading":heading,"src":src}
+		ann=db.child("clubs").child(ans).child("Res").push(ro)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
 	return render(request,'clubs/addresource.html')
