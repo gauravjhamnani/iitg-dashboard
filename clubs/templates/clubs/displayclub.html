@@ -29,70 +29,63 @@
         Tip 2: you can also add an image using data-image tag
     -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          Creative Tim
+        <a href="/home" class="simple-text logo-normal">
+          IITG Dashboard
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
-            <a class="nav-link" href="./dashboard.html">
-              <i class="material-icons">dashboard</i>
-              <p>Dashboard</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./user.html">
-              <i class="material-icons">person</i>
-              <p>User Profile</p>
-            </a>
-          </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./tables.html">
-              <i class="material-icons">content_paste</i>
-              <p>Table List</p>
+          <li class="nav-item">
+            <a class="nav-link" href="/home">
+              <i class="material-icons">home</i>
+              <p>Home</p>
             </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
-              <i class="material-icons">content_paste</i>
+              <i class="material-icons">group_work</i>
               <span class="menu-title"> <p> Clubs </p> </span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="ui-basic">
+            <div id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 {% for k,r in sed.items %}
+                {% if r == pk %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="/club/{{r}}">{{k}}</a>
+                </li>
+                {% else %}  
                 <li class="nav-item">
-                  <a class="nav-link" href="/club/{{r}}">{{k}}</a>
+                    <a class="nav-link" href="/club/{{r}}">{{k}}</a>
+                </li>
+                {% endif %}
                 </li>
                 {% endfor %}
+                <li class="nav-item">
+                  <i class="nav-link material-icons">add</i>
+                  <a class="nav-link" href="/addclub">Add Club</a>
+                </li>
               </ul>
             </div>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./icons.html">
-              <i class="material-icons">bubble_chart</i>
-              <p>Icons</p>
+            <a class="nav-link" href="/timetable">
+              <i class="material-icons">event_note</i>
+              <p>Class Timetable</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./map.html">
-              <i class="material-icons">location_ons</i>
-              <p>Maps</p>
+            <a class="nav-link" href="/events">
+              <i class="material-icons">whatshot</i>
+              <p>Event Calendar</p>
             </a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./notifications.html">
-              <i class="material-icons">notifications</i>
-              <p>Notifications</p>
+            <a class="nav-link" href="/signin">
+              <i class="material-icons">person</i>
+              <p>Sign in</p>
             </a>
           </li>
-          <!-- <li class="nav-item active-pro ">
-                <a class="nav-link" href="./upgrade.html">
-                    <i class="material-icons">unarchive</i>
-                    <p>Upgrade to PRO</p>
-                </a>
-            </li> -->
         </ul>
       </div>
     </div>
@@ -219,91 +212,177 @@
                       </table>
                     </div>
                     <div class="tab-pane" id="announcements">
+                      <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          <tr>
+                            <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addannouncement">
+                              <i class="material-icons">add</i>
+                              Add Announcement
+                            </a>
+                          </tr>
                           {% if details.Announcements %}
                           {% for r, a in details.Announcements.items %}
                           <tr>
                             <td>
-                              {{ a.time }} &nbsp; {{ a.date }}
+                              <div class="card card-stats" style = "border-width: 1px; border-style: solid; border-color: black">
+                                <div class="card-header card-header-warning card-header-icon">
+                                  <!-- <div class="card-icon">
+                                    <i class="material-icons">content_copy</i>
+                                  </div> -->
+                                  <p class="card-category" align = "left">{{a.date}} &nbsp; {{a.time}}</p>
+                                  <h3 class="card-title" align = "left" style = "color: black">{{a.heading}}
+                                    <!-- <span align = "right">
+                                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                        <i class="material-icons">close</i>
+                                      </button>
+                                    </span> -->
+                                  </h3>
+                                  <!-- <span class = "card-category">
+                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                      <i class="material-icons">close</i>
+                                    </button>
+                                  </span> -->
+                                </div>
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <p class = "blockquote" style = "color: black"> {{a.announcement}} </p>
+                                  </div>
+                                </div>
+                              </div>
                             </td>
-                            <td> {{ a.heading }} 
-                            <p> {{ a.announcement }} </p>
+                            <td> 
+                              <span class = "card-category">
+                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                  <i class="material-icons">close</i>
+                                </button>
+                              </span>
                             </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
+                          </tr> 
                           {% endfor %}
                           {% endif %}
                         </tbody>
                       </table>
+                      </div>
                     </div>
                     <div class="tab-pane" id="events">
+                      <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          <tr>
+                            <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addevent">
+                              <i class="material-icons">add</i>
+                              Add Event
+                            </a>
+                          </tr>
                           {% if details.Events %}
                           {% for r, a in details.Events.items %}
                           <tr>
                             <td>
-                              {{ a.time }} &nbsp; {{ a.date }}
+                              <div class="card card-stats" style = "border-width: 1px; border-style: solid; border-color: black">
+                                <div class="card-header card-header-warning card-header-icon">
+                                  <!-- <div class="card-icon">
+                                    <i class="material-icons">content_copy</i>
+                                  </div> -->
+                                  <!-- <p class="card-category" align = "left">{{a.date}} &nbsp; {{a.time}}</p> -->
+                                  <h3 class="card-title" align = "left" style = "color: black">{{a.heading}}
+                                    <!-- <span align = "right">
+                                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                        <i class="material-icons">close</i>
+                                      </button>
+                                    </span> -->
+                                  </h3>
+                                  <!-- <span class = "card-category">
+                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                      <i class="material-icons">close</i>
+                                    </button>
+                                  </span> -->
+                                </div>
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <p class = "blockquote" style = "color: black"> {{a.description}} </p>
+                                  </div>
+                                </div>
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <p class = "blockquote" style = "color: black; font-weight: bold;"> {{a.venue}} </p><br>
+                                  </div>
+                                  <div class="stats">
+                                    <p class = "blockquote" style = "color: black; font-weight: bold;"> {{a.date}} | {{a.time}} </p><br>
+                                  </div>
+                                  <div class="stats">
+                                    <p class = "blockquote" style = "color: black; font-weight: bold;"> Contact: {{a.mob}} </p><br>
+                                  </div>
+                                </div>
+                              </div>
                             </td>
-                            <td>
-                              <table class="table">
-                                <tbody> 
-                                  <tr> <h3> {{ a.heading }} </h3>
-                                  <tr> <p> {{a.description}} </p> </tr>
-                                  <tr> <p> {{a.venue}} </p> </tr>
-                                  <tr> <p> {{a.mob}} </p> </tr>
-                                </tbody>
-                              </table>
+                            <td> 
+                              <span class = "card-category">
+                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                  <i class="material-icons">close</i>
+                                </button>
+                              </span>
                             </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
+                          </tr> 
                           {% endfor %}
                           {% endif %}
-                          
                         </tbody>
                       </table>
+                      </div>
                     </div>
                     <div class="tab-pane" id="resources">
+                      <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          <tr>
+                            <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addresource">
+                              <i class="material-icons">add</i>
+                              Add Resource
+                            </a>
+                          </tr>
                           {% if details.Res %}
                           {% for r, a in details.Res.items %}
                           <tr>
                             <td>
-                              {{ a.heading }}
+                              <div class="card card-stats" style = "border-width: 1px; border-style: solid; border-color: black">
+                                <div class="card-header card-header-warning card-header-icon">
+                                  <!-- <div class="card-icon">
+                                    <i class="material-icons">content_copy</i>
+                                  </div> -->
+                                  <!-- <p class="card-category" align = "left">{{a.date}} &nbsp; {{a.time}}</p> -->
+                                  <h3 class="card-title" align = "left" style = "color: black">{{a.heading}}
+                                    <!-- <span align = "right">
+                                      <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                        <i class="material-icons">close</i>
+                                      </button>
+                                    </span> -->
+                                  </h3>
+                                  <!-- <span class = "card-category">
+                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                      <i class="material-icons">close</i>
+                                    </button>
+                                  </span> -->
+                                </div>
+                                <div class="card-footer">
+                                  <div class="stats">
+                                    <a href = {{a.description}}> <p class = "blockquote" style = "color: black"> {{a.src}} </p> </a>
+                                  </div>
+                                </div>
+                              </div>
                             </td>
-                            <td>
-                              <a href={{ a.src }}> {{ a.src }} </a>
+                            <td> 
+                              <span class = "card-category">
+                                <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                  <i class="material-icons">close</i>
+                                </button>
+                              </span>
                             </td>
-                            <td class="td-actions text-right">
-                              <!-- <button type="button" rel="tooltip" title="Edit Announcement" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button> -->
-                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                                <i class="material-icons">close</i>
-                              </button>
-                            </td>
-                          </tr>
+                          </tr> 
                           {% endfor %}
                           {% endif %}
-                          
                         </tbody>
                       </table>
+                      </div>
                     </div>
                   </div>
                 </div>
