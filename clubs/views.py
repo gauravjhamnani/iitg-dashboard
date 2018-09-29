@@ -35,9 +35,19 @@ def index(request):
 	return render(request,'clubs/index.html',{"sed":sed})
 
 def signin(request):
-	return render(request,'clubs/signin.html')
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
+	return render(request,'clubs/signin.html', {"sed":sed})
 
 def postsign(request):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	email=request.POST.get('email')
 	passw = request.POST.get("pass")
 	try:
@@ -45,11 +55,6 @@ def postsign(request):
 	except:
 		message = "invalid cerediantials"
 		return render(request,"clubs/signin.html",{"msg":message})
-	a=db.child('clubs').get()
-	a=a.val()
-	sed={}
-	for r,t in a.items():
-		sed[r]=t['pk']
 	return render(request,'clubs/index.html',{"sed":sed})
 
 def addclub(request):
@@ -73,21 +78,36 @@ def addclub(request):
 		sed={}
 		for r,t in a.items():
 			sed[r]=t['pk']
-		return render(request, "clubs/index.html",{"sed":sed})		
-	return render(request,'clubs/addclub.html')
+		return render(request, "clubs/index.html",{"sed":sed})	
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']	
+	return render(request,'clubs/addclub.html', {"sed":sed})
 
 def displayclub(request,pk):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	all_clubs = db.child("clubs").get()
 	a=all_clubs.val()
 	for r,t in a.items():
 		if t["pk"]==pk:
 			ans=r
-	return render(request,"clubs/displayclub.html",{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
+	return render(request,"clubs/displayclub.html",{"sed": sed, "pk":pk, "clubname":ans,"details":db.child("clubs").child(ans).get().val()})
 
 # def addpic(request,pk):
 
 
 def desc(request,pk):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	if request.method == "POST":
 		desc=request.POST.get('desc')
 		all_clubs = db.child("clubs").get()
@@ -96,10 +116,15 @@ def desc(request,pk):
 			if t["pk"]==pk:
 				ans=r
 		db.child("clubs").child(ans).child("Desc").set(desc)
-		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})	
-	return render(request,'clubs/description.html')
+		return render(request,'clubs/displayclub.html',{"sed": sed, "pk":pk, "clubname":ans,"details":db.child("clubs").child(ans).get().val()})	
+	return render(request,'clubs/description.html', {"sed":sed, "pk":pk})
 
 def addannouncement(request,pk):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	if request.method == "POST":
 		heading = request.POST.get('heading')
 		announcement = request.POST.get('announcement')
@@ -114,10 +139,15 @@ def addannouncement(request,pk):
 				ans=r
 		ro={"heading":heading,"announcement":announcement,"date":str(date),"time":str(now)}
 		db.child("clubs").child(ans).child("Announcements").push(ro)
-		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addannouncement.html', {"pk": pk})
+		return render(request,'clubs/displayclub.html',{"sed": sed, "pk": pk, "clubname":ans,"details":db.child("clubs").child(ans).get().val()})
+	return render(request,'clubs/addannouncement.html', {"sed": sed, "pk": pk})
 
 def addevent(request,pk):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	if request.method == "POST":
 		heading = request.POST.get('heading')
 		description = request.POST.get('description')
@@ -132,13 +162,18 @@ def addevent(request,pk):
 				ans=r
 		ro = {"heading":heading,"description":description,"date":date,"time":time,"venue":venue,"mob":mob}
 		db.child("clubs").child(ans).child("Events").push(ro)
-		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addevent.html')
+		return render(request,'clubs/displayclub.html',{"sed": sed, "pk":pk, "clubname":ans,"details":db.child("clubs").child(ans).get().val()})
+	return render(request,'clubs/addevent.html', {"sed": sed, "pk":pk})
 
 
 
 
 def addresource(request,pk):
+	temp=db.child('clubs').get()
+	temp=temp.val()
+	sed={}
+	for r,t in temp.items():
+		sed[r]=t['pk']
 	if request.method == "POST":
 		heading = request.POST.get('heading')
 		src = request.POST.get('src')	
@@ -149,5 +184,5 @@ def addresource(request,pk):
 				ans=r
 		ro = {"heading":heading,"src":src}
 		ann=db.child("clubs").child(ans).child("Res").push(ro)
-		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addresource.html')
+		return render(request,'clubs/displayclub.html',{"sed":sed, "pk":pk, "clubname":ans,"details":db.child("clubs").child(ans).get().val()})
+	return render(request,'clubs/addresource.html', {"sed":sed, "pk":pk})
