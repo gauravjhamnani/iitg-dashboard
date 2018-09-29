@@ -13,7 +13,7 @@
   <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.jpg' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard by Creative Tim
+    Sign in | IITG Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -68,10 +68,12 @@
                 <!-- {% endif %} -->
                 </li>
                 {% endfor %}
+                {% if email|stringformat:"s" == "admin@iitg.ac.in" %}
                 <li class="nav-item">
                   <i class="nav-link material-icons">add</i>
                   <a class="nav-link" href="/addclub">Add Club</a>
                 </li>
+                {% endif %}
               </ul>
             </div>
           </li>
@@ -81,7 +83,7 @@
               <p>Class Timetable</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item">
             <a class="nav-link" href="/events">
               <i class="material-icons">whatshot</i>
               <p>Event Calendar</p>

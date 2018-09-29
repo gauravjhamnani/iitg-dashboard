@@ -14,4 +14,7 @@ urlpatterns = [
 	url(r'^club/(?P<pk>[a-zA-Z]+)/addevent/$',views.addevent,name="addevent"),
 	url(r'^club/(?P<pk>[a-zA-Z]+)/addresource/$',views.addresource,name="addresource"),
 	url(r'^club/(?P<pk>[a-zA-Z]+)/pic/$',views.pic,name="pic"),
+	url(r'^club/(?P<pk>[a-zA-Z]+)/pictures/$',views.pictures,name="pictures"),
+	url(r'^timetable/$',views.timetable,name='timetable'),
+	url(r'^events/$',views.events,name='events'),
 ]

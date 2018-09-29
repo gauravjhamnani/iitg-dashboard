@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.jpg' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Material Dashboard by Creative Tim
+    Club Home | IITG Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -61,10 +61,12 @@
                 {% endif %}
                 </li>
                 {% endfor %}
+                {% if email|stringformat:"s" == "admin@iitg.ac.in" %}
                 <li class="nav-item">
                   <i class="nav-link material-icons">add</i>
                   <a class="nav-link" href="/addclub">Add Club</a>
                 </li>
+                {% endif %}
               </ul>
             </div>
           </li>
@@ -80,12 +82,14 @@
               <p>Event Calendar</p>
             </a>
           </li>
+          {% if email|stringformat:"s" == "0" %}
           <li class="nav-item ">
             <a class="nav-link" href="/signin">
               <i class="material-icons">person</i>
               <p>Sign in</p>
             </a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -201,12 +205,28 @@
                       <table class="table">
                         <tbody>
                           <tr>
-                            <td>{{ details.Desc }}</td>
-                            <td class="td-actions text-right">
-                              <button type="button" rel="tooltip" title="Edit Description" class="btn btn-primary btn-link btn-sm">
-                                <i class="material-icons">edit</i>
-                              </button>
+                            <td>
+                              <center><img src = "{{details.Photo}}" /></center>
                             </td>
+                            {% if email|stringformat:"s" == details.email|stringformat:"s" %}
+                            <td class="td-actions text-right">
+                              <a type="button" rel="tooltip" title="Edit Photo" class="btn btn-primary btn-link btn-sm" href="/club/{{details.pk}}/pic">
+                                <i class="material-icons">edit</i>
+                              </a>
+                            </td>
+                            {% endif %}
+                          </tr>
+                          <tr>
+                            <td class = "blockquote">{{ details.Desc }}</td>
+
+                            {% if email|stringformat:"s" == details.email|stringformat:"s" %}
+                            <td class="td-actions text-right">
+                              <a type="button" rel="tooltip" title="Edit Description" class="btn btn-primary btn-link btn-sm" href="/club/{{details.pk}}/desc">
+                                <i class="material-icons">edit</i>
+                              </a>
+                            </td>
+                            {% endif %}
+
                           </tr>
                         </tbody>
                       </table>
@@ -215,12 +235,14 @@
                       <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          {% if email|stringformat:"s" == details.email|stringformat:"s" %}
                           <tr>
                             <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addannouncement">
                               <i class="material-icons">add</i>
                               Add Announcement
                             </a>
                           </tr>
+                          {% endif %}
                           {% if details.Announcements %}
                           {% for r, a in details.Announcements.items %}
                           <tr>
@@ -251,13 +273,13 @@
                                 </div>
                               </div>
                             </td>
-                            <td> 
+                            <!-- <td> 
                               <span class = "card-category">
                                 <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
                                   <i class="material-icons">close</i>
                                 </button>
                               </span>
-                            </td>
+                            </td> -->
                           </tr> 
                           {% endfor %}
                           {% endif %}
@@ -269,12 +291,14 @@
                       <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          {% if email|stringformat:"s" == details.email|stringformat:"s" %}
                           <tr>
                             <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addevent">
                               <i class="material-icons">add</i>
                               Add Event
                             </a>
                           </tr>
+                          {% endif %}
                           {% if details.Events %}
                           {% for r, a in details.Events.items %}
                           <tr>
@@ -316,13 +340,14 @@
                                 </div>
                               </div>
                             </td>
-                            <td> 
+                            
+                            <!-- <td> 
                               <span class = "card-category">
                                 <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
                                   <i class="material-icons">close</i>
                                 </button>
                               </span>
-                            </td>
+                            </td> -->
                           </tr> 
                           {% endfor %}
                           {% endif %}
@@ -334,12 +359,14 @@
                       <div class="table-responsive">
                       <table class="table">
                         <tbody>
+                          {% if email|stringformat:"s" == details.email|stringformat:"s" %}
                           <tr>
                             <a type="button" title="Add Event" class="btn btn-success btn-md" href = "/club/{{details.pk}}/addresource">
                               <i class="material-icons">add</i>
                               Add Resource
                             </a>
                           </tr>
+                          {% endif %}
                           {% if details.Res %}
                           {% for r, a in details.Res.items %}
                           <tr>
@@ -365,24 +392,50 @@
                                 </div>
                                 <div class="card-footer">
                                   <div class="stats">
-                                    <a href = {{a.description}}> <p class = "blockquote" style = "color: black"> {{a.src}} </p> </a>
+                                    <a href = {{a.src}}> <p class = "blockquote" style = "color: black"> {{a.src}} </p> </a>
                                   </div>
                                 </div>
                               </div>
                             </td>
-                            <td> 
+                            <!-- <td> 
                               <span class = "card-category">
                                 <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
                                   <i class="material-icons">close</i>
                                 </button>
                               </span>
-                            </td>
+                            </td> -->
                           </tr> 
                           {% endfor %}
                           {% endif %}
                         </tbody>
                       </table>
                       </div>
+                    </div>
+                    <div class="tab-pane" id="gallery">
+                      <!-- <div class="table-responsive"> -->
+                      <!-- <table class="table"> -->
+                        <!-- <tbody> -->
+                          {% if email|stringformat:"s" == details.email|stringformat:"s" %}
+                          <!-- <tr> -->
+                            <a type="button" title="Add Photo(s)" class="btn btn-success btn-md" href = "/club/{{details.pk}}/pictures">
+                              <i class="material-icons">add</i>
+                              Add Photo(s)
+                            </a>
+                          <!-- </tr> -->
+                          {% endif %}
+                          {% if details.Pictures %}
+                          {% for r, a in details.Pictures.items %}
+                          <!-- <tr> -->
+                            <!-- <td> -->
+                            <img src = "{{a}}" style="padding: 15px; margin: 10px; border-width: 2px; border-style: solid; border-color: black"/>
+                            <!-- <center><img src = "{{a}}" /></center> -->
+                            <!-- </td>   -->
+                          <!-- </tr> -->
+                          {% endfor %}
+                          {% endif %}
+                        <!-- </tbody> -->
+                      <!-- </table> -->
+                      <!-- </div> -->
                     </div>
                   </div>
                 </div>

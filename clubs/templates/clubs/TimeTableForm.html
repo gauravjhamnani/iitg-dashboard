@@ -1,3 +1,29 @@
+<!-- hackriti.zip
+<table>
+    <thead>
+      <tr>
+        <th>Course</th>
+        <th>Room</th>
+        <th>Slot</th>
+      </tr>
+    </thead>
+
+    <tbody>
+    {% for r,t in data.items %}
+      <tr>
+        <td>{{t.course}}</td>
+        <td>{{ft.room}}</td>
+       <td>{{t.slot}}</td>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+
+ -->
+
+
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +34,7 @@
   <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.jpg' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Add Club Photo | IITG Dashboard
+    Time Table | IITG Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -50,15 +76,15 @@
             <div id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 {% for k,r in sed.items %}
-                {% if r == pk %}
+                <!-- {% if r == pk %}
                 <li class="nav-item active">
                     <a class="nav-link" href="/club/{{r}}">{{k}}</a>
                 </li>
-                {% else %}  
+                {% else %}  --> 
                 <li class="nav-item">
                     <a class="nav-link" href="/club/{{r}}">{{k}}</a>
                 </li>
-                {% endif %}
+                <!-- {% endif %} -->
                 </li>
                 {% endfor %}
                 {% if email|stringformat:"s" == "admin@iitg.ac.in" %}
@@ -70,7 +96,7 @@
               </ul>
             </div>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="/timetable">
               <i class="material-icons">event_note</i>
               <p>Class Timetable</p>
@@ -158,29 +184,88 @@
             <div class="col-md-12">
               <div class="card">
                 <div class="card-header card-header-primary">
-                  <h4 class="card-title">Add Club Picture</h4>
-                  <p class="card-category">Select the picture</p>
+                  <h4 class="card-title">TimeTable</h4>
+                  <p class="card-category">Enter the fields</p>
                 </div>
                 <div class="card-body">
-                  <form method="POST" enctype="multipart/form-data" accept="image/*">
+                  <form method = "post">
                     {% csrf_token %}
                     <div class="row">
                       <div class="col-md-6">
-                        <div>
-                            <input type="file" name="pic" id="pic">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Branch:  </label>
+                          <select name="branch">
+              <option value="BSBE">BSBE</option>
+              <option value="CE">CE</option> 
+              <option value="CEN">CEN</option>  
+              <option value="CH">CH</option>  
+              <option value="CL">CL</option>
+              <option value="CRT">CRT</option>    
+              <option value="CSE">CSE</option> 
+              <option value="DD">DD</option>   
+              <option value="EEE">EEE</option>  
+              <option value="HSS">HSS</option> 
+              <option value="MA">MA</option>   
+              <option value="ME">ME</option>  
+              <option value="PH">PH</option>  
+            </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Program:  </label>
+                          <select name="program">
+              <option value="B">B.Tech</option>
+              <option value="M">M.Tech</option> 
+              <option value="P">Phd</option>  
+            </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label class="bmd-label-floating">Semester:  </label>
+                          <select name="semno">
+              <option value="1">1</option>
+              <option value="3">3</option> 
+              <option value="5">5</option> 
+              <option value="7">7</option>  
+            </select>
                         </div>
                       </div>
                     </div>
                     <button type="submit" class="btn btn-primary pull-right">Submit</button>
                     <div class="clearfix"></div>
                   </form>
+                         {% if data %}
+                  <table class="table">
+                    <thead class="thead-light">
+                      <tr>
+                        <th scope="col">Course</th>
+                        <th scope="col">Room</th>
+                        <th scope="col">Slot</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for r,t in data.items %}
+                      <tr>
+                        <td>{{t.course}}</td>
+                        <td>{{t.room}}</td>
+                        <td>{{t.slot}}</td>
+                      </tr>
+                     {% endfor %}
+                    </tbody>
+                  </table>
+                  {% endif %}
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
   <!--   Core JS Files   -->

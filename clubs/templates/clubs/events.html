@@ -8,7 +8,7 @@
   <link rel="icon" type="image/png" href="{% static 'assets/img/favicon.jpg' %}">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <title>
-    Add Club Photo | IITG Dashboard
+    Events | IITG Dashboard
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
   <!--     Fonts and icons     -->
@@ -47,18 +47,11 @@
               <span class="menu-title"> <p> Clubs </p> </span>
               <i class="menu-arrow"></i>
             </a>
-            <div id="ui-basic">
+            <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
                 {% for k,r in sed.items %}
-                {% if r == pk %}
-                <li class="nav-item active">
-                    <a class="nav-link" href="/club/{{r}}">{{k}}</a>
-                </li>
-                {% else %}  
                 <li class="nav-item">
-                    <a class="nav-link" href="/club/{{r}}">{{k}}</a>
-                </li>
-                {% endif %}
+                  <a class="nav-link " href="/club/{{r}}">{{k}}</a>
                 </li>
                 {% endfor %}
                 {% if email|stringformat:"s" == "admin@iitg.ac.in" %}
@@ -76,18 +69,20 @@
               <p>Class Timetable</p>
             </a>
           </li>
-          <li class="nav-item ">
+          <li class="nav-item active">
             <a class="nav-link" href="/events">
               <i class="material-icons">whatshot</i>
               <p>Event Calendar</p>
             </a>
           </li>
+          {% if email|stringformat:"s" == "0" %}
           <li class="nav-item ">
             <a class="nav-link" href="/signin">
               <i class="material-icons">person</i>
               <p>Sign in</p>
             </a>
           </li>
+          {% endif %}
         </ul>
       </div>
     </div>
@@ -156,26 +151,7 @@
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title">Add Club Picture</h4>
-                  <p class="card-category">Select the picture</p>
-                </div>
-                <div class="card-body">
-                  <form method="POST" enctype="multipart/form-data" accept="image/*">
-                    {% csrf_token %}
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div>
-                            <input type="file" name="pic" id="pic">
-                        </div>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary pull-right">Submit</button>
-                    <div class="clearfix"></div>
-                  </form>
-                </div>
-              </div>
+              <iframe src="https://calendar.google.com/calendar/embed?height=900&amp;wkst=1&amp;bgcolor=%23FFFFFF&amp;src=iitghackriti%40gmail.com&amp;color=%231B887A&amp;ctz=Asia%2FCalcutta" style="border-width:0" width="100%" height="900" frameborder="0" scrolling="no"></iframe>
             </div>
           </div>
         </div>
