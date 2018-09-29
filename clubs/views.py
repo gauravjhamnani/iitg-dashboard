@@ -26,7 +26,12 @@ firebase = pyrebase.initialize_app(config)
 auth = firebase.auth()
 db=firebase.database()
 def index(request):
-	return render(request,'clubs/index.html')
+	a=db.child('clubs').get()
+	a=a.val()
+	sed={}
+	for r,t in a.items():
+		sed[r]=t['pk']
+	return render(request,'clubs/index.html',{"sed":sed})
 
 def signin(request):
 	return render(request,'clubs/signin.html')
@@ -39,24 +44,44 @@ def postsign(request):
 	except:
 		message = "invalid cerediantials"
 		return render(request,"clubs/signin.html",{"msg":message})
-	return render(request, "clubs/index.html",{"e":email})
+	a=db.child('clubs').get()
+	a=a.val()
+	sed={}
+	for r,t in a.items():
+		sed[r]=t['pk']
+	return render(request,'clubs/index.html',{"sed":sed})
 
 def addclub(request):
 	if request.method == "POST":
-		clubname = request.POST('clubname')
-		email = request.POST('email')
-		password = request.POST('password')
+		clubname = request.POST.get('clubname')
+		email = request.POST.get('email')
+		password = request.POST.get('password')
 		auth.create_user_with_email_and_password(email, password)
+		l=clubname.split(' ')
+		l=l[0].lower()
 		dic={
 			"email" : email,
-			"Photo": None,
-			"Desc" : None,
-			"Res" : None,
-			"Announcements" : None,
-			"Events" : None,
-			"Pictures" : None
+			"Photo": "None",
+			"Desc" : "None",
+			"Res" : "None",
+			"Announcements" : "None",
+			"Events" : "None",
+			"Pictures" : "None",	
+			"pk" : l
 		}
-		db.child("clubs").push(clubname).set(dic)
-		return render(request, "clubs/index.html",{"e":clubname})		
+		db.child("clubs").child(clubname).set(dic)
+		a=db.child('clubs').get()
+		a=a.val()
+		sed={}
+		for r,t in a.items():
+			sed[r]=t['pk']
+		return render(request, "clubs/index.html",{"sed":sed})		
 	return render(request,'clubs/addclub.html')
 
+def displayclub(request,pk):
+	all_clubs = db.child("clubs").get()
+	a=all_clubs.val()
+	for r,t in a.items():
+		if t["pk"]==pk:
+			ans=r
+	return render(request,"clubs/displayclub.html",{"clubname":ans,"details":a[ans]})

@@ -1,4 +1,9 @@
 {% load static %}
+{% if msg %}
+  <script>
+      alert('{{msg}}')
+  </script>
+{% endif %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -16,8 +21,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- CSS Files -->
   <link href="{% static 'assets/css/material-dashboard.css' %}" rel="stylesheet" />
-  <!-- CSS Just for demo purpose, don't include it in your project -->
-  <link href="{% static 'assets/demo/demo.css" rel="stylesheet' %}" />
+  <!-- For login -->
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/util.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'assets/css/main.css' %}">
 </head>
 
 <body class="">
@@ -35,7 +42,7 @@
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
-          <li class="nav-item active  ">
+          <li class="nav-item active">
             <a class="nav-link" href="./dashboard.html">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
@@ -56,16 +63,17 @@
           <li class="nav-item">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <i class="material-icons">content_paste</i>
-              <span class="menu-title"> <p> Clubs </p> </span>
+              <span class="menu-title"> <p> Basic UI Elements </p> </span>
               <i class="menu-arrow"></i>
             </a>
             <div class="collapse" id="ui-basic">
               <ul class="nav flex-column sub-menu">
-                {% for k,r in sed.items %}
                 <li class="nav-item">
-                  <a class="nav-link" href="/club/{{r}}">{{k}}</a>
+                  <a class="nav-link" href="./temp.html">Buttons</a>
                 </li>
-                {% endfor %}
+                <li class="nav-item">
+                  <a class="nav-link" href="pages/ui-features/typography.html">Typography</a>
+                </li>
               </ul>
             </div>
           </li>
@@ -158,60 +166,65 @@
       </nav> -->
       <!-- End Navbar -->
       <div class="content" style = "margin-top: 0;">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                  <div class="card-header card-header-primary">
-                    <h1 class="card-title" align="Center">Indian Institute of Technology</h1>
-                    <h2 class="card-category" align="Center">Guwahati</h2>
-                  </div>
-                  <div class="card-body">
-                    <div class = "card-group" style = "box-shadow: 0 16px 38px -12px rgba(0, 0, 0, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);">
-                    <img src = "{% static 'assets/img/homebanner.jpg' %}" />
-                  </div>
-                  <br>
-                  <div class="card">
-                    <div class="card-header card-header-primary">
-                      <h4 class="card-title">About the Institute</h4>
-                      <!-- <h2 class="card-category" align="Center">Guwahati</h2> -->
-                    </div>
-                    <div class="card-body">
-                      <p class="blockquote">
-                        Indian Institute of Technology Guwahati, the sixth member of the IIT fraternity, was established in 1994. The academic programme of IIT Guwahati commenced in 1995. At present the Institute has eleven departments and five inter-disciplinary academic centres covering all the major engineering, science and humanities disciplines, offering BTech, BDes, MA, MDes, MTech, MSc and PhD programmes. Within a short period of time, IIT Guwahati has been able
-                        to build up world class infrastructure for carrying out advanced research and has been equipped with state-of-the-art scientific and engineering instruments.Indian Institute of Technology Guwahati's campus is on a sprawling 285 hectares plot of land on the north bank of the river Brahmaputra around 20 kms. from the heart of the city. With the majestic Brahmaputra on one side, and with hills and vast open spaces on others, the campus provides an ideal setting for learning.
-                      </p>
-                    </div>
-                  </div>
-                  <div class="card">
-                    <div class="card-header card-header-primary">
-                      <h4 class="card-title">Facilities</h4>
-                      <!-- <h2 class="card-category" align="Center">Guwahati</h2> -->
-                    </div>
-                    <div class="card-body">
-                      <p class="blockquote">
-                         The 74,000 square metre Academic Complex houses the academic departments, centres, their laboratories, classrooms, etc. A spacious Administrative Building accommodates the offices of the Institute. The Computer and Communication Centre houses a modern Computer Centre and Central Library. A lecture hall complex with four lecture halls, each capable of seating 250 scholars and an auditorium of 1500 capacity provide space for teaching and holding various events/programmes. The Sports Complex comprising of an indoor sports stadium with synthetic badminton, table tennis and squash courts, gymnasium and the Students Gymkhana office, an 8 lane 50 m long swimming pool and flood-lit playing fields for all major outdoor games provide ample scope of recreation for the campus residents. A 72-room Guest House, ample faculty and staff quarters, married students’ flat-lets, eight men’s and one women’s hostels with single occupancy rooms make the residential component of the infrastructure. The Institute also has a hospital with 30 beds, a commercial complex with a restaurant and several shops and two community halls. A Conference Centre with a provision of 4 halls (2 halls with 150 capacity and 2 halls with 200 capacity) and a food court is nearing completion.
-                         <br>
+        <div class="limiter">
+          <div class="container-login100">
+            <div class="wrap-login100">
+              <form class="login100-form validate-form" action="/addclub/" method="post">
+                {% csrf_token %}
+                <span class="login100-form-title p-b-26">
+                  Welcome
+                </span>
 
-                        Other facilities include a campus wide network on a Gigabit Ethernet backbone with access points in every hostel room, an internal EPABX, high capacity internet connections (including access from residences), two banks with ATM facilities, a post office with Railway Passenger Reservation facility, a pre-primary school-cum-creche, a Kendriya Vidyalaya and a bus service to the city.
-                        <br>
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                  <input class="input100" type="text" name="clubname" id="clubname">
+                  <span class="focus-input100" data-placeholder="Club Name"></span>
+                </div>
 
-                        All faculty and staff members of the institute are provided with PCs. All these computers are hooked on to the campus network. Most of the office work is automated with a view to improve efficency and reduce the use of papers. Internet and e-mail facility are provided through leased lines.
-                        <br>
-                        
-                        The Central Library, one of the important central facilities of the Institute, currently has a collection of over 1,17,000 items including 2605 subscribed online journals and magazines.
-                      </p>
-                    </div>
+                <div class="wrap-input100 validate-input" data-validate="Enter password">
+                  <input class="input100" type="email" name="email" id="email">
+                  <span class="focus-input100" data-placeholder="Email"></span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
+                  <input class="input100" type="password" name="password" id="password">
+                  <span class="focus-input100" data-placeholder="Password"></span>
+                </div>
+
+                <div class="container-login100-form-btn">
+                  <div class="wrap-login100-form-btn">
+                    <div class="login100-form-bgbtn"></div>
+                    <button class="login100-form-btn">
+                      Login
+                    </button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
         </div>
-      </div>
+  
+
+  <!-- <div id="dropDownSelect1"></div> -->
+  
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/vendor/animsition/js/animsition.min.js' %}"></script> -->
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/vendor/bootstrap/js/popper.js' %}"></script> -->
+  <!-- <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.min.js' %}"></script> -->
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/vendor/select2/select2.min.js' %}"></script> -->
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/vendor/daterangepicker/moment.min.js' %}"></script> -->
+  <!-- <script src="{% static 'assets/vendor/daterangepicker/daterangepicker.js' %}"></script> -->
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/vendor/countdowntime/countdowntime.js' %}"></script> -->
+<!--===============================================================================================-->
+  <!-- <script src="{% static 'assets/js/main.js' %}"></script> -->
+      <!-- </div> -->
       
     </div>
   </div>
+</div>
   <!--   Core JS Files   -->
   <script src="{% static 'assets/js/core/jquery.min.js' %}" type="text/javascript"></script>
   <script src="{% static 'assets/js/core/popper.min.js' %}" type="text/javascript"></script>
