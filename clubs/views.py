@@ -120,7 +120,7 @@ def addannouncement(request,pk):
 			r=ann.append({"heading":heading,"announcement":announcement,"date":date,"time":time})
 		db.child("clubs").child(ans).child("Announcements").update(r)
 		return render(request,'clubs/displayclub.html',{"clubname":ans,"details":db.child("clubs").child(ans).get().val()})
-	return render(request,'clubs/addanouncement.html')
+	return render(request,'clubs/addannouncement.html')
 
 def addevent(request,pk):
 	if request.method == "POST":
